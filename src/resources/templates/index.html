@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>教育机构</title>
+    <link href="../static/css/bootstrap.css" rel="stylesheet"/>
+    <link href="../static/css/style.css" rel="stylesheet"/>
+</head>
+<body>
+
+<div id="change-width">
+    <!--<input type="button" id="empty-btn"/>-->
+    <div id="edu-background">
+
+    </div>
+</div>
+<div id="div-webView">
+</div>
+<div id="div-pk">
+    <div id="blue-pk">
+        <input type="button" class="profile-left"/>
+    </div>
+    <div id="red-pk">
+        <input type="button" class="profile-right"/>
+    </div>
+</div>
+<div id="div-control">
+    <input type="button" class="control-btn" value="开始挑战"/>
+</div>
+<div id="div-webView-former">
+
+    <input type="text" id="msgBar" value="   继续学习第九章" readonly/>
+    <input type="button" id="dogHand"/>
+    <div id="dog"></div>
+    <div id="user-info">
+
+    </div>
+    <div class="lesson-view">
+        <div class="lesson-model-left">
+            <div id="progress">
+                <span></span>
+            </div>
+        </div>
+        <div class="lesson-model-right">
+            <div class="circle"></div>
+        </div>
+        <div class="lesson-model-left" style="background: #008aff">
+
+        </div>
+        <div class="lesson-model-right" style="background: #ae1fea">
+
+        </div>
+    </div>
+</div>
+</body>
+<script src="../static/js/jquery-3.1.1.min.js"></script>
+<script>
+    $(document).ready(function () {
+        /**
+         * 展开动画
+         * */
+        $('#dogHand').css('animation', 'shakeHand 2s infinite linear');
+        $('#blue-pk').css('animation', 'showBluePk 1.5s ');
+        $('#red-pk').css('animation', 'showRedPk 1.5s ');
+        $('.control-btn').css('animation', 'showBtn 1s ');
+
+        setTimeout(function () {
+            $('#blue-pk').css('transform', 'translateX(-5rem) translateY(10rem) rotateZ(30deg)');
+            $('#red-pk').css('transform', 'translateX(5rem) translateY(0) rotateZ(30deg)');
+            $('.control-btn').css('animation', 'hideBtn 1s ');
+        }, 980)
+
+        /**
+         * 回收动画
+         * */
+        setTimeout(function () {
+            $('#blue-pk').css('animation', 'hideBluePk 0.5s ');
+            $('#red-pk').css('animation', 'hideRedPk 0.5s ');
+        }, 1500)
+
+        setTimeout(function () {
+            $('#blue-pk').css('transform', 'translateX(-26rem) translateY(0) rotateZ(30deg)');
+            $('#red-pk').css('transform', 'translateX(26rem) translateY(10rem) rotateZ(30deg)');
+        }, 1980)
+
+        setTimeout(function () {
+            $('#div-pk').css('display', 'none');
+            $('#div-control').css('display', 'none');
+        }, 2000)
+
+        /**
+         * 点击小狗展开和回收信息栏
+         * */
+        $(document).on('click', '#dog', function () {
+            if($(this).css('font-size') != "20px"){
+                showDogAndMsg();
+            }else {
+                hideDogAndMsg();
+            }
+        })
+
+        function showDogAndMsg() {
+            $('#dogHand').css('display', 'none');
+            $('#dog').css('animation', 'rollOut 0.5s linear');
+            $('#msgBar').css('animation', 'showMsg 0.5s linear');
+            setTimeout(function () {
+                $('#dog').css('transform', 'translateX(10rem)');
+                $('#dog').css('font-size', '20px');
+                $('#msgBar').css('transform', 'translateX(0)');
+            }, 450)
+        }
+
+        function hideDogAndMsg() {
+            $('#dog').css('animation', 'rollIn 0.5s linear');
+            $('#msgBar').css('animation', 'hideMsg 0.5s linear');
+            setTimeout(function () {
+                $('#dog').css('transform', 'translateX(0)');
+                $('#dog').css('font-size', '13px');
+                $('#msgBar').css('transform', 'translateX(-13.56rem)');
+                $('#dogHand').css('display', 'block');
+            }, 450)
+        }
+    })
+</script>
+</html>

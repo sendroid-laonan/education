@@ -1,0 +1,518 @@
+body{
+    background: #fafafa;
+    text-align: center;
+}
+
+#change-width{
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0,0,0,0);
+    text-align: center;
+    position: absolute;
+    z-index: 1000;
+}
+
+#empty-btn{
+    width: 30vw;
+    height: 100vh;
+    background: rgba(0,0,0,0);
+    visibility: hidden;
+    position: relative;
+    z-index: 1000;
+    float: left;
+}
+
+#edu-background{
+    width: 60rem;
+    height: 85vh;
+    margin-top: 15vh;
+    margin-left: 30%;
+    min-width: 60rem;
+    background: url("../images/ihoneX.png") no-repeat;
+    background-size: 100% 100%;
+    position: relative;
+    z-index: 100;
+    float: left;
+}
+
+#div-webView{
+    width: 28rem;
+    height: 66.7vh;
+    min-width: 28rem;
+    margin-top: 18vh;
+    position: absolute;
+    z-index: 100;
+    margin-left: 40%;
+    background: #7bc1d6;
+}
+
+#div-webView-former{
+    width: 27rem;
+    height: 66.7vh;
+    min-width: 28rem;
+    margin-top: 18vh;
+    position: absolute;
+    z-index: 1100;
+    margin-left: 40.5%;
+    background: rgba(0,0,0,0);
+    overflow: hidden;
+}
+
+#div-pk, #div-control{
+    width: 26.9rem;
+    height: 66vh;
+    margin-top: 18vh;
+    margin-left: 40.4%;
+    position: absolute;
+    z-index: 5000;
+    border-radius: 3rem;
+    overflow: hidden;
+}
+
+#div-pk{
+    background: rgba(0, 0, 0, 0.3);
+}
+
+#div-control{
+    z-index: 5500;
+}
+
+.control-btn{
+    width: 40%;
+    height: 6%;
+    border-radius: 1rem;
+    border: solid 0.3rem rgba(250, 250, 250, 0.3);
+    background: #f8c835;
+    color: #ef6417;
+    font-weight: bold;
+    font-size: large;
+    margin-top: 32vh;
+    transform: scale(0, 0);
+    outline: none;
+}
+
+#blue-pk{
+    width: 100%;
+    height: 10%;
+    background: linear-gradient(to left, #581fea 30%, #a91fea);
+    border-radius: 5rem;
+    float: left;
+    transform: translateX(-26rem) rotateZ(30deg);
+    transform-origin: 50% 50%;
+    margin-top: 5rem;
+    border: 0;
+}
+
+#red-pk{
+    width: 100%;
+    height: 10%;
+    background: linear-gradient(to right, #ea4a1f 30%, #ffbb45);
+    border-radius: 5rem;
+    float: right;
+    transform: translateX(26rem) rotateZ(30deg);
+    transform-origin: 50% 50%;
+    margin-top: 25rem;
+    border: 0;
+}
+
+.profile-left, .profile-right{
+    width: 4.5rem;
+    height: 4.5rem;
+    border: solid 0.3rem rgba(250, 250, 250, 0.5);
+    border-radius: 100%;
+    background: url("../images/profile_small.jpg") no-repeat;
+    background-size: 120% 120%;
+    background-position: center;
+    float: right;
+    margin-right: 5px;
+    margin-top: 5px;
+    transform: rotateZ(-30deg);
+}
+
+.profile-right{
+    float: left;
+    margin-left: 5px;
+}
+
+#dog{
+    width: 4rem;
+    height: 4rem;
+    margin-top: 5rem;
+    background: url("../images/dog.png") no-repeat;
+    background-size: contain;
+    z-index: 100;
+    font-size: small;
+    border-radius: 100%;
+}
+
+#dogHand{
+    width: 2rem;
+    height: 2rem;
+    margin-top: 5.5rem;
+    margin-left: 1rem;
+    border: 0;
+    background: url("../images/dialogbox.png") no-repeat;
+    background-size: contain;
+    z-index: 10;
+    outline: none;
+    float: left;
+    border-radius: 30%;
+}
+
+#msgBar{
+    width: 12.56rem;
+    height: 3rem;
+    margin-top: 6rem;
+    margin-left: 1rem;
+    border-radius: 2rem;
+    border: solid 0.3rem rgba(250, 250, 250, 0.5);
+    background: rgba(236, 206, 1, 0.5);
+    z-index: 1008;
+    outline: none;
+    float: left;
+    color: #fff;
+    transform: translateX(-13.56rem);
+}
+
+#dog:hover, #msgBar:hover{
+    cursor: pointer;
+}
+
+#user-info{
+    width: 90%;
+    height: 10rem;
+    margin-left: 2.5%;
+    background: #168bed;
+    border-radius: 0.5rem;
+    z-index: 1005;
+    float: left;
+    position: absolute;
+}
+
+.lesson-view{
+    width: 95%;
+    height: auto;
+    margin-top: 10rem;
+}
+
+.lesson-model-left{
+    width: 45%;
+    height: 10rem;
+    float: left;
+    margin-left: 2.5%;
+    margin-top: 5%;
+    background: #2752ef;
+    border-radius: 0.5rem;
+}
+
+.lesson-model-right{
+    width: 45%;
+    height: 10rem;
+    float: right;
+    margin-right: 2.5%;
+    margin-top: 5%;
+    background: #eaa51f;
+    border-radius: 0.5rem;
+}
+
+
+#progress{
+    width: 90%;
+    height: 2rem;
+    border:1px solid #ccc;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 0 5px 0px #ddd inset;
+    float: left;
+    margin-left: 5%;
+    margin-top: 4rem;
+}
+
+#progress span {
+    width: 100%;
+    height: 100%;
+    background: #2989d8; /* Old browsers */
+    background: -moz-linear-gradient(45deg, #2989d8 33%, #7db9e8 34%, #7db9e8 59%, #2989d8 60%); /* FF3.6+ */
+    background: -webkit-gradient(linear, left bottom, right top, color-stop(33%,#2989d8), color-stop(34%,#7db9e8), color-stop(59%,#7db9e8), color-stop(60%,#2989d8)); /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(45deg, #2989d8 33%,#7db9e8 34%,#7db9e8 59%,#2989d8 60%); /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(45deg, #2989d8 33%,#7db9e8 34%,#7db9e8 59%,#2989d8 60%); /* Opera 11.10+ */
+    background: -ms-linear-gradient(45deg, #2989d8 33%,#7db9e8 34%,#7db9e8 59%,#2989d8 60%); /* IE10+ */
+    background: linear-gradient(45deg, #2989d8 33%,#7db9e8 34%,#7db9e8 59%,#2989d8 60%); /* W3C */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#2989d8', endColorstr='#2989d8',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
+    background-size: 4rem 2rem;
+    text-align: left;
+    float: left;
+    color:#fff;
+    -webkit-animation:load 1.5s ease-in;
+}
+
+.circle {
+    width: 8rem;
+    height: 8rem;
+    background: #2989d8;
+    border-radius: 50%;
+    margin-top: 1rem;
+    margin-left: 2rem;
+    -webkit-mask: -webkit-radial-gradient(transparent 3.5rem, #000 3.5rem);
+}
+
+@-webkit-keyframes load{
+    0%{
+       transform: translateX(-100%);
+    }
+    100%{
+        transform: translateX(0);
+    }
+}
+
+@keyframes shake {
+    0% {
+        transform: rotate(0) ;
+    }
+    25% {
+        transform: rotate(15deg) ;
+    }
+    50% {
+        transform: rotate(0) ;
+    }
+    75% {
+        transform: rotate(-15deg) ;
+    }
+    100% {
+        transform: rotate(0) ;
+    }
+}
+
+@-webkit-keyframes shake {
+    0% {
+        -webkit-transform: rotate(0) ;
+        transform: rotate(0) ;
+    }
+    25% {
+        -webkit-transform: rotate(15deg) ;
+        transform: rotate(15deg) ;
+    }
+    50% {
+        -webkit-transform: rotate(0) ;
+        transform: rotate(0) ;
+    }
+    75% {
+        -webkit-transform: rotate(-15deg) ;
+        transform: rotate(-15deg) ;
+    }
+    100% {
+        -webkit-transform: rotate(0) ;
+        transform: rotate(0) ;
+    }
+}
+
+@keyframes rollOut {
+     0% {
+         transform: translateX(0) rotate(0);
+     }
+
+     100% {
+         transform: translateX(10rem) rotate(360deg);
+     }
+ }
+
+@-webkit-keyframes rollOut {
+    0% {
+        -webkit-transform: translateX(0) rotate(0);
+        transform: translateX(0) rotate(0);
+    }
+
+    100% {
+        -webkit-transform: translateX(10rem); rotate(360deg);
+        transform: translateX(10rem) rotate(360deg);
+    }
+}
+
+@keyframes rollIn {
+    0% {
+        transform: translateX(10rem) rotate(0) ;
+    }
+
+    100% {
+        transform: translateX(0) rotate(-360deg) ;
+    }
+}
+
+@-webkit-keyframes rollIn {
+    0% {
+        -webkit-transform: translateX(10rem) rotate(0);
+        transform: translateX(10rem) rotate(0) ;
+    }
+
+    100% {
+        -webkit-transform: translateX(0) rotate(-360deg);
+        transform: translateX(0) rotate(-360deg) ;
+    }
+}
+
+@keyframes showMsg {
+     0%  {
+         opacity: 0;
+         transform: translateX(-13.56rem);
+     }
+
+    15% {
+        opacity: 1;
+    }
+
+     100%  {
+         transform: translateX(0);
+     }
+ }
+
+@-webkit-keyframes showMsg {
+    0%  {
+        opacity: 0;
+        -webkit-transform: translateX(-13.56rem);
+        transform: translateX(-13.56rem);
+    }
+
+    15% {
+        opacity: 1;
+    }
+
+    100%  {
+        -webkit-transform: translateX(0);
+        transform: translateX(0);
+    }
+}
+
+@keyframes hideMsg {
+    0%  {
+        opacity: 1;
+        transform: translateX(0);
+    }
+
+    85% {
+        opacity: 0;
+    }
+
+    100%  {
+        transform: translateX(-13.56rem);
+    }
+}
+
+@-webkit-keyframes hideMsg {
+    0%  {
+        opacity: 1;
+        -webkit-transform: translateX(0);
+        transform: translateX(0);
+    }
+
+    85% {
+        opacity: 0;
+    }
+
+    100%  {
+        -webkit-transform: translateX(-13.56rem);
+        transform: translateX(-13.56rem);
+    }
+}
+
+@keyframes shakeHand {
+    0% {
+        transform: translateX(-11.4rem) rotateZ(0deg) ;
+        transform-origin: 0 100%;
+    }
+
+    50% {
+        transform: translateX(-11.4rem) rotateZ(25deg) ;
+        transform-origin: 0 100%;
+    }
+
+    100% {
+        transform: translateX(-11.4rem) rotateZ(0deg) ;
+        transform-origin: 0 100%;
+    }
+}
+
+@keyframes showBluePk {
+    0%  {
+        transform: translateX(-23rem) rotateZ(30deg);
+    }
+
+    100%   {
+        transform: translateX(-5rem) translateY(10rem) rotateZ(30deg);
+    }
+}
+
+@keyframes showRedPk {
+    0%  {
+        transform: translateX(23rem) translateY(10rem) rotateZ(30deg);
+    }
+
+    100%   {
+        transform: translateX(5rem) translateY(0) rotateZ(30deg);
+    }
+}
+
+@keyframes hideBluePk {
+    0%  {
+        transform: translateX(-5rem) translateY(10rem) rotateZ(30deg);
+    }
+
+    100%   {
+        transform: translateX(-26rem) translateY(0) rotateZ(30deg);
+    }
+}
+
+@keyframes hideRedPk {
+    0%  {
+        transform: translateX(5rem) translateY(0) rotateZ(30deg);
+    }
+
+    100%   {
+        transform: translateX(26rem) translateY(10rem) rotateZ(30deg);
+    }
+}
+
+@keyframes showBtn {
+    0%  {
+        transform: scale(0, 0);
+    }
+
+    20% {
+        transform: scale(1.1, 1.1);
+    }
+
+    30% {
+        transform: scale(0.9, 0.9);
+    }
+
+    40% {
+        transform: scale(1.05, 1.05);
+    }
+
+    50% {
+        transform: scale(1, 1);
+    }
+
+    100%{
+        transform: scale(1, 1);
+    }
+}
+
+@keyframes hideBtn {
+    0%{
+        transform: scale(1, 1);
+    }
+
+    30% {
+        transform: scale(1, 1);
+    }
+
+    50% {
+        transform: scale(1.1, 1.1);
+    }
+
+    100%    {
+        transform: scale(0, 0);
+    }
+}
+
+
