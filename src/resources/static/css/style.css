@@ -211,7 +211,7 @@ body{
     float: right;
     margin-right: 2.5%;
     margin-top: 5%;
-    background: #eaa51f;
+    background: #8c8c8c;
     border-radius: 0.5rem;
 }
 
@@ -254,6 +254,12 @@ body{
     margin-top: 1rem;
     margin-left: 2rem;
     -webkit-mask: -webkit-radial-gradient(transparent 3.5rem, #000 3.5rem);
+}
+
+#indicatorContainer canvas:last-child{
+    width: 8rem;
+    height: 8rem;
+    margin-top: 1rem;
 }
 
 @-webkit-keyframes load{

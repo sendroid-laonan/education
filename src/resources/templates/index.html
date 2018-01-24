@@ -42,7 +42,9 @@
             </div>
         </div>
         <div class="lesson-model-right">
-            <div class="circle"></div>
+            <div class="prg-cont rad-prg" id="indicatorContainer">
+                <canvas width="0" height="0"></canvas>
+            </div>
         </div>
         <div class="lesson-model-left" style="background: #008aff">
 
@@ -54,6 +56,37 @@
 </div>
 </body>
 <script src="../static/js/jquery-3.1.1.min.js"></script>
+<script src="../static/js/radialIndicator.js"></script>
+<script>
+    $(document).ready(function () {
+        var initData = 0;
+        var radialObj = radialIndicator('#indicatorContainer', {
+            radius: 60,
+            barWidth: 5,
+            barColor: {
+                0: '#FF0000',
+                33: '#FFFF00',
+                66: '#0066FF',
+                100: '#33CC33'
+            },
+            minValue: 0,
+            maxValue: 100,
+            fontWeight: 'normal',
+            roundCorner: true,
+        });
+
+        setInterval(function () {
+            if(initData <= 100) {
+                initData++;
+            }else {
+                initData = 0;
+            }
+            radialObj.value(initData);
+        }, 30);
+
+    });
+</script>
+
 <script>
     $(document).ready(function () {
         /**
