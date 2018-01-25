@@ -330,6 +330,10 @@ body{
     border: 0;
 }
 
+.progress{
+    background: rgba(250, 250, 250, 0.5);
+}
+
 .score-progress{
     transform: rotate(-90deg);
     margin-top: 2rem;
@@ -338,6 +342,11 @@ body{
 .score-progress .progress{
     width: 15vw;
     margin-top: 27vh;
+}
+
+#next-question{
+    display: none;
+
 }
 
 @-webkit-keyframes load{

@@ -62,7 +62,9 @@
         </button>
     </div>
     <div class="col-xs-12 user-score">
-
+        <div class="prg-cont rad-prg" id="gameContainer">
+            <canvas width="0" height="0"></canvas>
+        </div>
     </div>
     <button type="button" readonly="readonly"
               class="col-xs-10 col-xs-offset-1 question-title">在细胞免疫中，效应T细胞发挥免疫作用的机制是?</button>
@@ -82,23 +84,24 @@
         <button type="button"
                class="col-xs-12 answer-option"
                name="A">
-            <input type="button" value="A."/>激活靶细胞内的溶酶体酶
+            <input type="button" value="A."/><span>激活靶细胞内的溶酶体酶</span>
         </button>
         <button type="button"
                 class="col-xs-12 answer-option"
                 name="B">
-            <input type="button" value="B."/>与抗原结合使其失去活性
+            <input type="button" value="B."/><span>与抗原结合使其失去活性</span>
         </button>
         <button type="button"
                 class="col-xs-12 answer-option"
                 name="C">
-            <input type="button" value="C."/>直接吞噬靶细胞将其分解
+            <input type="button" value="C."/><span>直接吞噬靶细胞将其分解</span>
         </button>
         <button type="button"
                 class="col-xs-12 answer-option"
                 name="D">
-            <input type="button" value="D."/>将抗原呈递给B淋巴细胞
+            <input type="button" value="D."/><span>将抗原呈递给B淋巴细胞</span>
         </button>
+        <button type="button" id="next-question">下一题</button>
     </div>
     <div class="col-xs-2 no-padding" id="other-score">
         <input value="0" type="text" readonly="readonly" class="score-num"/>
@@ -120,6 +123,7 @@
 <script>
     $(document).ready(function () {
         var initData = 0;
+
         var radialObj = radialIndicator('#indicatorContainer', {
             radius: 60,
             barWidth: 5,
@@ -135,24 +139,68 @@
             roundCorner: true,
         });
 
-        setInterval(function () {
-            if(initData <= 100) {
-                initData++;
-            }else {
-                initData = 0;
-            }
-            radialObj.value(initData);
-        }, 30);
+//        setInterval(function () {
+//            if(initData <= 100) {
+//                initData++;
+//            }else {
+//                initData = 0;
+//            }
+//            radialObj.value(initData);
+//        }, 30);
 
     });
 </script>
 <script>
     $(document).ready(function () {
-        var isTimeOutFlag = false;
+        var isGameTimeOutFlag = false;
+        var isRoundTimeOutFlag = false;
+        var questionTitle = "第二题";
+        var gameCountDown, roundCountDown, circleCountDown;
+
+        var initGame = 0;
+        var gameObj = radialIndicator('#gameContainer', {
+            radius: 60,
+            barWidth: 5,
+            barColor: {
+                0: '#FF0000',
+                33: '#FFFF00',
+                66: '#0066FF',
+                100: '#33CC33'
+            },
+            minValue: 0,
+            maxValue: 5,
+            fontWeight: 'normal',
+            roundCorner: false,
+        });
+        
         $('#div-pk').css('display', 'none');
         $('#div-control').css('display', 'none');
 
         $('#start-game').on('click', function () {
+
+            setTimeout(function () {
+                gameCountDown = setTimeout(function () {
+                    isGameTimeOutFlag = true;
+                    clearInterval(roundCountDown);
+                    clearInterval(circleCountDown);
+                    $('.question-title').empty();
+                    $('.question-title').append("答题结束");
+                }, 25000);
+
+                roundCountDown = setInterval(function () {
+                    $('#next-question').click();
+                }, 5000);
+
+                circleCountDown = setInterval(function () {
+                    if(initGame <= 5) {
+                        initGame++;
+                    }else {
+                        initGame = 0;
+                    }
+                    gameObj.value(initGame);
+                }, 720);
+            }, 2000);
+
             $('#div-webView').css('background', '#4352a3');
             $('#div-pk').css('display', 'block');
             $('#div-control').css('display', 'block');
@@ -188,10 +236,22 @@
             $('#div-webView-former').css('display', 'block');
             $('#div-game-view').css('display', 'none');
             $('#div-webView').css('background', '#7bc1d6');
+            isGameTimeOutFlag = false;
+            isRoundTimeOutFlag = false;
+            $('.answer-option').css('background', 'rgba(250, 250, 250, 0.7)');
+            $('.answer-option').css('color', '#4352a3');
+
+            clearTimeout(gameCountDown);
+            clearInterval(roundCountDown);
+            clearInterval(circleCountDown);
+
+            $('#my-score .score-num').val(0);
+            $('#my-score .progress-bar').attr('aria-valuenow', 0);
+            $('#my-score .progress-bar').css('width', 0);
         });
 
         $(document).on('mousedown', '.answer-option', function () {
-            if(isTimeOutFlag === false) {
+            if(isRoundTimeOutFlag === false) {
                 $(this).css('transform', 'scale(0.9, 0.9)');
             }
         });
@@ -201,25 +261,25 @@
         });
 
         $(document).on('mouseover', '.answer-option', function () {
-            if(isTimeOutFlag === false){
+            if(isRoundTimeOutFlag === false){
                 $(this).css('background', 'rgba(250, 250, 250, 1)');
             }
         });
 
         $(document).on('mouseout', '.answer-option', function () {
-            if(isTimeOutFlag === false) {
+            if(isRoundTimeOutFlag === false) {
                 $(this).css('background', 'rgba(250, 250, 250, 0.7)');
             }
         });
 
 
-
         $(document).on('click', '.answer-option', function () {
-            if(isTimeOutFlag === false) {
+            if(isRoundTimeOutFlag === false) {
                 if ($(this).attr('name') === $('#answer-result').val()) {
                     $(this).css('background', '#a3d238');
                     $(this).css('color', '#ffffff');
                     changeCursor();
+                    changeScore();
                 } else {
                     $(this).css('background', '#ea4a1f');
                     $(this).css('color', '#ffffff');
@@ -228,11 +288,51 @@
             }
         });
 
+        $(document).on('click', '#next-question', function () {
+            isRoundTimeOutFlag = false;
+            var nextAnswer = ["选项一", "选项二", "选项三", "选项四"];
+            $('.question-title').empty();
+            $('.question-title').append(questionTitle);
+            switch (questionTitle){
+                case "第二题": questionTitle = "第三题";break;
+                case "第三题": questionTitle = "第四题";break;
+                case "第四题": questionTitle = "第五题";break;
+                default: questionTitle = "答题结束";break;
+            }
+
+            $('.answer-option').each(function (i) {
+                var optionNo;
+                var selector = ".answer-option:eq(" + i + ")";
+                switch (i){
+                    case 0: optionNo = "A.";break;
+                    case 1: optionNo = "B.";break;
+                    case 2: optionNo = "C.";break;
+                    case 3: optionNo = "D.";break;
+                }
+                $(selector).css('color', '#4352a3');
+                $(selector).css('background', 'rgba(250, 250, 250, 0.7)');
+                $(selector).find("input").val();
+                $(selector).find("input").val(optionNo);
+                $(selector).find("span").empty();
+                $(selector).find("span").append(nextAnswer[i]);
+            })
+        });
+
         function changeCursor() {
             $('.answer-option').each(function () {
                 $(this).css('cursor', 'default');
             });
-            isTimeOutFlag = true;
+            isRoundTimeOutFlag = true;
+        }
+
+        function changeScore() {
+            var oldScore = $('#my-score .progress-bar').attr('aria-valuenow');
+            var maxScore = $('#my-score .progress-bar').attr('aria-valuemax');
+            var widthPercent = ((parseInt(oldScore) + 200) / parseInt(maxScore)) * 100 + "%";
+
+            $('#my-score .score-num').val(parseInt(oldScore) + 200);
+            $('#my-score .progress-bar').attr('aria-valuenow', parseInt(oldScore) + 200);
+            $('#my-score .progress-bar').css('width', widthPercent);
         }
     })
 </script>
