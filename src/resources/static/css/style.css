@@ -72,8 +72,8 @@ body{
 
 #div-pk, #div-control{
     width: 310px;
-    height: 600px;
-    margin-top: -450px;
+    height: 560px;
+    margin-top: -430px;
     /*margin-left: 40.4%;*/
     position: relative;
     margin-left: auto;
@@ -88,6 +88,7 @@ body{
 }
 
 #div-control{
+    margin-top: -470px;
     z-index: 5500;
 }
 
@@ -100,7 +101,7 @@ body{
     color: #ef6417;
     font-weight: bold;
     font-size: large;
-    margin-top: 32vh;
+    margin-top: 160px;
     transform: scale(0, 0);
     outline: none;
 }
@@ -138,8 +139,8 @@ body{
     background-size: 120% 120%;
     background-position: center;
     float: right;
-    margin-right: 5px;
-    margin-top: 5px;
+    margin-right: 1px;
+    margin-top: 1px;
     transform: rotateZ(-30deg);
 }
 
@@ -537,41 +538,41 @@ body{
 
 @keyframes showBluePk {
     0%  {
-        transform: translateX(-23rem) rotateZ(30deg);
+        transform: translateX(-23rem) translateY(-5rem) rotateZ(30deg);
     }
 
     100%   {
-        transform: translateX(-5rem) translateY(10rem) rotateZ(30deg);
+        transform: translateX(-5rem) translateY(5rem) rotateZ(30deg);
     }
 }
 
 @keyframes showRedPk {
     0%  {
-        transform: translateX(23rem) translateY(10rem) rotateZ(30deg);
+        transform: translateX(23rem) translateY(0rem) rotateZ(30deg);
     }
 
     100%   {
-        transform: translateX(5rem) translateY(0) rotateZ(30deg);
+        transform: translateX(5rem) translateY(-5rem) rotateZ(30deg);
     }
 }
 
 @keyframes hideBluePk {
     0%  {
-        transform: translateX(-5rem) translateY(10rem) rotateZ(30deg);
+        transform: translateX(-5rem) translateY(5rem) rotateZ(30deg);
     }
 
     100%   {
-        transform: translateX(-26rem) translateY(0) rotateZ(30deg);
+        transform: translateX(-26rem) translateY(-5rem) rotateZ(30deg);
     }
 }
 
 @keyframes hideRedPk {
     0%  {
-        transform: translateX(5rem) translateY(0) rotateZ(30deg);
+        transform: translateX(5rem) translateY(-5rem) rotateZ(30deg);
     }
 
     100%   {
-        transform: translateX(26rem) translateY(10rem) rotateZ(30deg);
+        transform: translateX(26rem) translateY(0) rotateZ(30deg);
     }
 }
 

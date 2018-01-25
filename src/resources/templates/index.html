@@ -84,22 +84,22 @@
         <button type="button"
                class="col-xs-12 answer-option"
                name="A">
-            <input type="button" value="A."/><span>激活靶细胞内的溶酶体酶</span>
+            <input type="button" value="A."/><span>选项一</span>
         </button>
         <button type="button"
                 class="col-xs-12 answer-option"
                 name="B">
-            <input type="button" value="B."/><span>与抗原结合使其失去活性</span>
+            <input type="button" value="B."/><span>选项二</span>
         </button>
         <button type="button"
                 class="col-xs-12 answer-option"
                 name="C">
-            <input type="button" value="C."/><span>直接吞噬靶细胞将其分解</span>
+            <input type="button" value="C."/><span>选项三</span>
         </button>
         <button type="button"
                 class="col-xs-12 answer-option"
                 name="D">
-            <input type="button" value="D."/><span>将抗原呈递给B淋巴细胞</span>
+            <input type="button" value="D."/><span>选项四</span>
         </button>
         <button type="button" id="next-question">下一题</button>
     </div>
@@ -177,14 +177,18 @@
         $('#div-control').css('display', 'none');
 
         $('#start-game').on('click', function () {
+            $('.question-title').empty();
+            $('.question-title').append("在细胞免疫中，效应T细胞发挥免疫作用的机制是?");
 
             setTimeout(function () {
                 gameCountDown = setTimeout(function () {
                     isGameTimeOutFlag = true;
+                    isRoundTimeOutFlag = true;
                     clearInterval(roundCountDown);
                     clearInterval(circleCountDown);
                     $('.question-title').empty();
                     $('.question-title').append("答题结束");
+                    questionTitle = "第二题";
                 }, 25000);
 
                 roundCountDown = setInterval(function () {
@@ -248,6 +252,13 @@
             $('#my-score .score-num').val(0);
             $('#my-score .progress-bar').attr('aria-valuenow', 0);
             $('#my-score .progress-bar').css('width', 0);
+
+            $('.question-title').empty();
+            $('.question-title').append("在细胞免疫中，效应T细胞发挥免疫作用的机制是?");
+            questionTitle = "第二题";
+
+            initGame = 0;
+            gameObj.value(0);
         });
 
         $(document).on('mousedown', '.answer-option', function () {
@@ -290,32 +301,16 @@
 
         $(document).on('click', '#next-question', function () {
             isRoundTimeOutFlag = false;
-            var nextAnswer = ["选项一", "选项二", "选项三", "选项四"];
             $('.question-title').empty();
             $('.question-title').append(questionTitle);
             switch (questionTitle){
+                case "第一题": questionTitle = "第二题";break;
                 case "第二题": questionTitle = "第三题";break;
                 case "第三题": questionTitle = "第四题";break;
                 case "第四题": questionTitle = "第五题";break;
                 default: questionTitle = "答题结束";break;
             }
-
-            $('.answer-option').each(function (i) {
-                var optionNo;
-                var selector = ".answer-option:eq(" + i + ")";
-                switch (i){
-                    case 0: optionNo = "A.";break;
-                    case 1: optionNo = "B.";break;
-                    case 2: optionNo = "C.";break;
-                    case 3: optionNo = "D.";break;
-                }
-                $(selector).css('color', '#4352a3');
-                $(selector).css('background', 'rgba(250, 250, 250, 0.7)');
-                $(selector).find("input").val();
-                $(selector).find("input").val(optionNo);
-                $(selector).find("span").empty();
-                $(selector).find("span").append(nextAnswer[i]);
-            })
+            changeOption();
         });
 
         function changeCursor() {
@@ -333,6 +328,26 @@
             $('#my-score .score-num').val(parseInt(oldScore) + 200);
             $('#my-score .progress-bar').attr('aria-valuenow', parseInt(oldScore) + 200);
             $('#my-score .progress-bar').css('width', widthPercent);
+        }
+
+        function changeOption() {
+            var nextAnswer = ["选项一", "选项二", "选项三", "选项四"];
+            $('.answer-option').each(function (i) {
+                var optionNo;
+                var selector = ".answer-option:eq(" + i + ")";
+                switch (i){
+                    case 0: optionNo = "A.";break;
+                    case 1: optionNo = "B.";break;
+                    case 2: optionNo = "C.";break;
+                    case 3: optionNo = "D.";break;
+                }
+                $(selector).css('color', '#4352a3');
+                $(selector).css('background', 'rgba(250, 250, 250, 0.7)');
+                $(selector).find("input").val();
+                $(selector).find("input").val(optionNo);
+                $(selector).find("span").empty();
+                $(selector).find("span").append(nextAnswer[i]);
+            });
         }
     })
 </script>
