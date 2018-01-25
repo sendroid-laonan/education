@@ -47,13 +47,73 @@
             </div>
         </div>
         <div class="lesson-model-left" style="background: #008aff">
-
+            <button class="btn btn-success" type="button" id="start-game">答题</button>
         </div>
         <div class="lesson-model-right" style="background: #ae1fea">
 
         </div>
     </div>
 </div>
+
+<div id="div-game-view" style="overflow: hidden">
+    <div class="col-xs-12 no-padding">
+        <button type="button" class="col-md-3 no-padding" id="return-back">
+            <i class="glyphicon glyphicon-arrow-left"></i>
+        </button>
+    </div>
+    <div class="col-xs-12 user-score">
+
+    </div>
+    <button type="button" readonly="readonly"
+              class="col-xs-10 col-xs-offset-1 question-title">在细胞免疫中，效应T细胞发挥免疫作用的机制是?</button>
+    <div class="col-xs-2 no-padding" id="my-score">
+        <input value="0" type="text" readonly="readonly" class="score-num"/>
+        <div class="score-progress">
+            <div class="progress">
+                <div class="progress-bar progress-bar-danger" role="progressbar"
+                     aria-valuenow="0" aria-valuemin="0" aria-valuemax="1000"
+                     style="width: 0%;">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xs-8 no-padding">
+
+        <button type="button"
+               class="col-xs-12 answer-option"
+               name="A">
+            <input type="button" value="A."/>激活靶细胞内的溶酶体酶
+        </button>
+        <button type="button"
+                class="col-xs-12 answer-option"
+                name="B">
+            <input type="button" value="B."/>与抗原结合使其失去活性
+        </button>
+        <button type="button"
+                class="col-xs-12 answer-option"
+                name="C">
+            <input type="button" value="C."/>直接吞噬靶细胞将其分解
+        </button>
+        <button type="button"
+                class="col-xs-12 answer-option"
+                name="D">
+            <input type="button" value="D."/>将抗原呈递给B淋巴细胞
+        </button>
+    </div>
+    <div class="col-xs-2 no-padding" id="other-score">
+        <input value="0" type="text" readonly="readonly" class="score-num"/>
+        <div class="score-progress">
+            <div class="progress">
+                <div class="progress-bar progress-bar-danger" role="progressbar"
+                     aria-valuenow="0" aria-valuemin="0" aria-valuemax="1000"
+                     style="width: 0%;">
+                </div>
+            </div>
+        </div>
+    </div>
+    <input value="A" type="hidden" id="answer-result"/>
+</div>
+
 </body>
 <script src="../static/js/jquery-3.1.1.min.js"></script>
 <script src="../static/js/radialIndicator.js"></script>
@@ -86,44 +146,103 @@
 
     });
 </script>
-
 <script>
     $(document).ready(function () {
-        /**
-         * 展开动画
-         * */
+        var isTimeOutFlag = false;
+        $('#div-pk').css('display', 'none');
+        $('#div-control').css('display', 'none');
+
+        $('#start-game').on('click', function () {
+            $('#div-webView').css('background', '#4352a3');
+            $('#div-pk').css('display', 'block');
+            $('#div-control').css('display', 'block');
+            $('#div-webView-former').css('display', 'none');
+            $('#blue-pk').css('animation', 'showBluePk 1.5s ');
+            $('#red-pk').css('animation', 'showRedPk 1.5s ');
+            $('.control-btn').css('animation', 'showBtn 1s ');
+
+            setTimeout(function () {
+                $('#blue-pk').css('transform', 'translateX(-5rem) translateY(10rem) rotateZ(30deg)');
+                $('#red-pk').css('transform', 'translateX(5rem) translateY(0) rotateZ(30deg)');
+                $('.control-btn').css('animation', 'hideBtn 1s ');
+            }, 980);
+
+            setTimeout(function () {
+                $('#blue-pk').css('animation', 'hideBluePk 0.5s ');
+                $('#red-pk').css('animation', 'hideRedPk 0.5s ');
+            }, 1500);
+
+            setTimeout(function () {
+                $('#blue-pk').css('transform', 'translateX(-26rem) translateY(0) rotateZ(30deg)');
+                $('#red-pk').css('transform', 'translateX(26rem) translateY(10rem) rotateZ(30deg)');
+            }, 1980);
+
+            setTimeout(function () {
+                $('#div-pk').css('display', 'none');
+                $('#div-control').css('display', 'none');
+                $('#div-game-view').css('display', 'block');
+            }, 2000);
+        });
+
+        $('#return-back').on('click', function () {
+            $('#div-webView-former').css('display', 'block');
+            $('#div-game-view').css('display', 'none');
+            $('#div-webView').css('background', '#7bc1d6');
+        });
+
+        $(document).on('mousedown', '.answer-option', function () {
+            if(isTimeOutFlag === false) {
+                $(this).css('transform', 'scale(0.9, 0.9)');
+            }
+        });
+
+        $(document).on('mouseup', '.answer-option', function () {
+            $(this).css('transform', 'scale(1, 1)');
+        });
+
+        $(document).on('mouseover', '.answer-option', function () {
+            if(isTimeOutFlag === false){
+                $(this).css('background', 'rgba(250, 250, 250, 1)');
+            }
+        });
+
+        $(document).on('mouseout', '.answer-option', function () {
+            if(isTimeOutFlag === false) {
+                $(this).css('background', 'rgba(250, 250, 250, 0.7)');
+            }
+        });
+
+
+
+        $(document).on('click', '.answer-option', function () {
+            if(isTimeOutFlag === false) {
+                if ($(this).attr('name') === $('#answer-result').val()) {
+                    $(this).css('background', '#a3d238');
+                    $(this).css('color', '#ffffff');
+                    changeCursor();
+                } else {
+                    $(this).css('background', '#ea4a1f');
+                    $(this).css('color', '#ffffff');
+                    changeCursor();
+                }
+            }
+        });
+
+        function changeCursor() {
+            $('.answer-option').each(function () {
+                $(this).css('cursor', 'default');
+            });
+            isTimeOutFlag = true;
+        }
+    })
+</script>
+<script>
+    $(document).ready(function () {
+        var pausedTimer;
+        var dog = document.getElementById('dog');
+
         $('#dogHand').css('animation', 'shakeHand 2s infinite linear');
-        $('#blue-pk').css('animation', 'showBluePk 1.5s ');
-        $('#red-pk').css('animation', 'showRedPk 1.5s ');
-        $('.control-btn').css('animation', 'showBtn 1s ');
 
-        setTimeout(function () {
-            $('#blue-pk').css('transform', 'translateX(-5rem) translateY(10rem) rotateZ(30deg)');
-            $('#red-pk').css('transform', 'translateX(5rem) translateY(0) rotateZ(30deg)');
-            $('.control-btn').css('animation', 'hideBtn 1s ');
-        }, 980)
-
-        /**
-         * 回收动画
-         * */
-        setTimeout(function () {
-            $('#blue-pk').css('animation', 'hideBluePk 0.5s ');
-            $('#red-pk').css('animation', 'hideRedPk 0.5s ');
-        }, 1500)
-
-        setTimeout(function () {
-            $('#blue-pk').css('transform', 'translateX(-26rem) translateY(0) rotateZ(30deg)');
-            $('#red-pk').css('transform', 'translateX(26rem) translateY(10rem) rotateZ(30deg)');
-        }, 1980)
-
-        setTimeout(function () {
-            $('#div-pk').css('display', 'none');
-            $('#div-control').css('display', 'none');
-        }, 2000)
-
-        /**
-         * 点击小狗展开和回收信息栏
-         * */
         $(document).on('click', '#dog', function () {
             if($(this).css('font-size') != "20px"){
                 showDogAndMsg();
@@ -131,6 +250,23 @@
                 hideDogAndMsg();
             }
         })
+
+        function stopShake() {
+            dog.style.webkitAnimationPlayState = "paused";
+            $('#dog').remove();
+            $('#div-webView-former').append('<div id="dog"></div>');
+        }
+
+        function reBootShake(msg) {
+            if (dog.style.webkitAnimationPlayState === "paused") {
+                dog.style.webkitAnimationPlayState = "running";
+            } else {
+                if(msg === "hide"){
+                    dog = document.getElementById('dog');
+                }
+                dog.style.webkitAnimationPlayState = "paused";
+            }
+        }
 
         function showDogAndMsg() {
             $('#dogHand').css('display', 'none');
