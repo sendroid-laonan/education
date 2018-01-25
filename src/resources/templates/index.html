@@ -122,6 +122,7 @@
 <script src="../static/js/radialIndicator.js"></script>
 <script>
     $(document).ready(function () {
+        $('.hidden').hide().removeClass('hidden').delay(400).fadeIn(600);
         var initData = 0;
 
         var radialObj = radialIndicator('#indicatorContainer', {
