@@ -23,50 +23,61 @@ body{
 }
 
 #edu-background{
-    width: 60rem;
-    height: 85vh;
-    margin-top: 15vh;
-    margin-left: 30%;
-    min-width: 60rem;
+    width: 688px;
+    height: 700px;
+    margin-top: 150px;
+    /*margin-left: 30%;*/
+    margin-left: auto;
+    margin-right: auto;
+    /*min-width: 60rem;*/
     background: url("../images/ihoneX.png") no-repeat;
     background-size: 100% 100%;
-    position: relative;
+    position: static;
     z-index: 100;
-    float: left;
 }
 
 #div-webView{
-    width: 28rem;
-    height: 66.7vh;
-    min-width: 28rem;
-    margin-top: 18vh;
-    position: absolute;
+    width: 340px;
+    height: 600px;
+    top: 150px;
+    /*min-width: 28rem;*/
+    /*margin-top: 18vh;*/
+    position: relative;
+    margin-left: auto;
+    margin-right: auto;
     z-index: 100;
-    margin-left: 40%;
+    /*margin-left: 40%;*/
     background: #7bc1d6;
 }
 
 #div-webView-former, #div-game-view{
-    width: 26.5rem;
-    height: 66.7vh;
-    margin-top: 18vh;
-    position: absolute;
+    width: 310px;
+    height: 600px;
+    /*margin-top: 18vh;*/
+    top: -450px;
+    position: relative;
+    margin-left: auto;
+    margin-right: auto;
     z-index: 1100;
-    margin-left: 40.5%;
+    /*margin-left: 40.5%;*/
     background: rgba(0,0,0,0);
     overflow: hidden;
 }
 
 #div-game-view{
+    top: -420px;
+    height: 500px;
     display: none;
 }
 
 #div-pk, #div-control{
-    width: 26.9rem;
-    height: 66vh;
-    margin-top: 18vh;
-    margin-left: 40.4%;
-    position: absolute;
+    width: 310px;
+    height: 600px;
+    margin-top: -450px;
+    /*margin-left: 40.4%;*/
+    position: relative;
+    margin-left: auto;
+    margin-right: auto;
     z-index: 5000;
     border-radius: 3rem;
     overflow: hidden;
@@ -302,7 +313,7 @@ body{
 }
 
 .answer-option{
-    height: 5rem;
+    height: 3rem;
     margin-top: 1rem;
     text-align: left;
     padding: 0;
@@ -336,12 +347,12 @@ body{
 
 .score-progress{
     transform: rotate(-90deg);
-    margin-top: 2rem;
+    margin-top: 10px;
 }
 
 .score-progress .progress{
-    width: 15vw;
-    margin-top: 27vh;
+    width: 180px;
+    margin-top: 150px;
 }
 
 #next-question{
