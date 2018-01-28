@@ -178,6 +178,10 @@
         $('#div-control').css('display', 'none');
 
         $('#start-game').on('click', function () {
+            if(/Android|webOS|iPhone|iPod|BlackBerry/i.test(navigator.userAgent)) {
+                $('#div-webView').css('width', '0');
+                $('#div-webView').css('height', '0');
+            }
             $('.question-title').empty();
             $('.question-title').append("在细胞免疫中，效应T细胞发挥免疫作用的机制是?");
 
@@ -210,25 +214,48 @@
             $('#div-pk').css('display', 'block');
             $('#div-control').css('display', 'block');
             $('#div-webView-former').css('display', 'none');
-            $('#blue-pk').css('animation', 'showBluePk 1.5s ');
-            $('#red-pk').css('animation', 'showRedPk 1.5s ');
-            $('.control-btn').css('animation', 'showBtn 1s ');
 
-            setTimeout(function () {
-                $('#blue-pk').css('transform', 'translateX(-5rem) translateY(10rem) rotateZ(30deg)');
-                $('#red-pk').css('transform', 'translateX(5rem) translateY(0) rotateZ(30deg)');
-                $('.control-btn').css('animation', 'hideBtn 1s ');
-            }, 980);
+            if(/Android|webOS|iPhone|iPod|BlackBerry/i.test(navigator.userAgent)) { //手机端
+                $('#blue-pk').css('animation', 'showBluePkPhone 1.5s ');
+                $('#red-pk').css('animation', 'showRedPkPhone 1.5s ');
+                $('.control-btn').css('animation', 'showBtn 1s ');
 
-            setTimeout(function () {
-                $('#blue-pk').css('animation', 'hideBluePk 0.5s ');
-                $('#red-pk').css('animation', 'hideRedPk 0.5s ');
-            }, 1500);
+                setTimeout(function () {
+                    $('#blue-pk').css('transform', 'translateX(-5rem) translateY(10rem) rotateZ(30deg)');
+                    $('#red-pk').css('transform', 'translateX(5rem) translateY(0) rotateZ(30deg)');
+                    $('.control-btn').css('animation', 'hideBtn 1s ');
+                }, 980);
 
-            setTimeout(function () {
-                $('#blue-pk').css('transform', 'translateX(-26rem) translateY(0) rotateZ(30deg)');
-                $('#red-pk').css('transform', 'translateX(26rem) translateY(10rem) rotateZ(30deg)');
-            }, 1980);
+                setTimeout(function () {
+                    $('#blue-pk').css('animation', 'hideBluePkPhone 0.5s ');
+                    $('#red-pk').css('animation', 'hideRedPkPhone 0.5s ');
+                }, 1500);
+
+                setTimeout(function () {
+                    $('#blue-pk').css('transform', 'translateX(-60vw) translateY(0) rotateZ(30deg)');
+                    $('#red-pk').css('transform', 'translateX(60vw) translateY(10rem) rotateZ(30deg)');
+                }, 1980);
+            }else { //PC端
+                $('#blue-pk').css('animation', 'showBluePk 1.5s ');
+                $('#red-pk').css('animation', 'showRedPk 1.5s ');
+                $('.control-btn').css('animation', 'showBtn 1s ');
+
+                setTimeout(function () {
+                    $('#blue-pk').css('transform', 'translateX(-5rem) translateY(10rem) rotateZ(30deg)');
+                    $('#red-pk').css('transform', 'translateX(5rem) translateY(0) rotateZ(30deg)');
+                    $('.control-btn').css('animation', 'hideBtn 1s ');
+                }, 980);
+
+                setTimeout(function () {
+                    $('#blue-pk').css('animation', 'hideBluePk 0.5s ');
+                    $('#red-pk').css('animation', 'hideRedPk 0.5s ');
+                }, 1500);
+
+                setTimeout(function () {
+                    $('#blue-pk').css('transform', 'translateX(-26rem) translateY(0) rotateZ(30deg)');
+                    $('#red-pk').css('transform', 'translateX(26rem) translateY(10rem) rotateZ(30deg)');
+                }, 1980);
+            }
 
             setTimeout(function () {
                 $('#div-pk').css('display', 'none');
@@ -238,6 +265,11 @@
         });
 
         $('#return-back').on('click', function () {
+
+            if(/Android|webOS|iPhone|iPod|BlackBerry/i.test(navigator.userAgent)) {
+                $('#div-webView').css('width', '340px');
+                $('#div-webView').css('height', '600px');
+            }
             $('#div-webView-former').css('display', 'block');
             $('#div-game-view').css('display', 'none');
             $('#div-webView').css('background', '#7bc1d6');
@@ -386,25 +418,127 @@
 
         function showDogAndMsg() {
             $('#dogHand').css('display', 'none');
-            $('#dog').css('animation', 'rollOut 0.5s linear');
-            $('#msgBar').css('animation', 'showMsg 0.5s linear');
-            setTimeout(function () {
-                $('#dog').css('transform', 'translateX(10rem)');
-                $('#dog').css('font-size', '20px');
-                $('#msgBar').css('transform', 'translateX(0)');
-            }, 450)
+            if(/Android|webOS|iPhone|iPod|BlackBerry/i.test(navigator.userAgent)) {
+                $('#msgBar').css('font-size', '3.5rem');
+                $('#dog').css('animation', 'rollOutPhone 0.5s linear');
+                $('#msgBar').css('animation', 'showMsgPhone 0.5s linear');
+                setTimeout(function () {
+                    $('#dog').css('transform', 'translateX(25rem)');
+                    $('#dog').css('font-size', '20px');
+                    $('#msgBar').css('transform', 'translateX(0)');
+                }, 450);
+            }else {
+                $('#dog').css('animation', 'rollOut 0.5s linear');
+                $('#msgBar').css('animation', 'showMsg 0.5s linear');
+                setTimeout(function () {
+                    $('#dog').css('transform', 'translateX(10rem)');
+                    $('#dog').css('font-size', '20px');
+                    $('#msgBar').css('transform', 'translateX(0)');
+                }, 450);
+            }
         }
 
         function hideDogAndMsg() {
-            $('#dog').css('animation', 'rollIn 0.5s linear');
-            $('#msgBar').css('animation', 'hideMsg 0.5s linear');
-            setTimeout(function () {
-                $('#dog').css('transform', 'translateX(0)');
-                $('#dog').css('font-size', '13px');
-                $('#msgBar').css('transform', 'translateX(-13.56rem)');
-                $('#dogHand').css('display', 'block');
-            }, 450)
+            if(/Android|webOS|iPhone|iPod|BlackBerry/i.test(navigator.userAgent)) {
+                $('#dog').css('animation', 'rollInPhone 0.5s linear');
+                $('#msgBar').css('animation', 'hideMsgPhone 0.5s linear');
+                setTimeout(function () {
+                    $('#dog').css('transform', 'translateX(0)');
+                    $('#dog').css('font-size', '13px');
+                    $('#msgBar').css('transform', 'translateX(-29.56rem)');
+                    $('#msgBar').css('font-size', '3.5rem');
+                    $('#dogHand').css('display', 'block');
+                }, 430);
+            }else {
+                $('#dog').css('animation', 'rollIn 0.5s linear');
+                $('#msgBar').css('animation', 'hideMsg 0.5s linear');
+                setTimeout(function () {
+                    $('#dog').css('transform', 'translateX(0)');
+                    $('#dog').css('font-size', '13px');
+                    $('#msgBar').css('transform', 'translateX(-13.56rem)');
+                    $('#dogHand').css('display', 'block');
+                }, 450);
+            }
         }
     })
+</script>
+<script>
+    $(document).ready(function () {
+        if(/Android|webOS|iPhone|iPod|BlackBerry/i.test(navigator.userAgent)) {
+            $('#edu-background').css('background', '#7bc1d6');
+            $('#edu-background').css('width', '100%');
+            $('#edu-background').css('height', '100%');
+            $('#edu-background').css('margin', '0');
+            $('#div-webView-former').css('width', '100%');
+            $('#div-webView-former').css('height', '100%');
+            $('#div-webView-former').css('margin', '0');
+            $('#user-info').css('height', '30rem');
+            $('#dog').css('width', '10rem');
+            $('#dog').css('height', '10rem');
+            $('#dogHand').css('width', '6rem');
+            $('#dogHand').css('height', '6rem');
+            $('#dogHand').css('margin-top', '6rem');
+            $('#dogHand').css('margin-left', '-10.5rem');
+            $('#msgBar').css('width', '28.56rem');
+            $('#msgBar').css('height', '9rem');
+            $('#msgBar').css('transform', 'translateX(-29.56rem)');
+            $('.lesson-view').css('margin-top', '30rem');
+            $('.lesson-model-left,.lesson-model-right').css('height', '30rem');
+            $('#progress').css('margin-top', '14rem');
+            $('#indicatorContainer canvas:last-child').css('margin-top', '5rem');
+            $('#indicatorContainer canvas:last-child').css('width', '20rem');
+            $('#indicatorContainer canvas:last-child').css('height', '20rem');
+            $('#start-game').css('margin-top', '11rem');
+            $('#start-game').css('width', '80%');
+            $('#start-game').css('height', '8rem');
+            $('#start-game').css('font-size', '4rem');
+
+            $('#div-game-view').css('width', '100vw');
+            $('#div-game-view').css('height', '100vh');
+            $('#div-game-view').css('top', '0');
+            $('#div-game-view').css('background', 'rgb(67, 82, 163)');
+            $('#return-back').css('font-size', '4rem');
+            $('#return-back').parent().css('text-align', 'left');
+            $('.user-score').css('height', '20vh');
+            $('.user-score').css('margin-top', '5vh');
+            $('#gameContainer canvas:last-child').css('width', '30rem');
+            $('#gameContainer canvas:last-child').css('height', '30rem');
+            $('.question-title').css('height', '20vh');
+            $('.question-title').css('font-size', '6rem');
+            $('.score-num').css('font-size', '5rem');
+            $('.score-progress .progress').css('width', '40vh');
+            $('.score-progress .progress').css('margin-top', '35vh');
+            $('.answer-option').css('height', '10vh');
+            $('.answer-option').css('margin-top', '1vh');
+            $('.answer-option').css('border-radius', '3vh');
+            $('.answer-option').css('font-size', '5rem');
+            $('.answer-option input').css('font-size', '5rem');
+
+            $('#div-pk').css('width', '100vw');
+            $('#div-pk').css('height', '100vh');
+            $('#div-pk').css('border-radius', '0');
+            $('#div-pk').css('margin-top', '0');
+
+            $('#blue-pk').css('width', '100vw');
+            $('#blue-pk').css('border-radius', '10vh');
+            $('#blue-pk').css('transform', 'translateX(-100vw) rotateZ(30deg)');
+            $('#red-pk').css('width', '100vw');
+            $('#red-pk').css('border-radius', '10vh');
+            $('#red-pk').css('transform', 'translateX(100vw) rotateZ(30deg)');
+
+            $('.profile-left, .profile-right').css('width', '9vh');
+            $('.profile-left, .profile-right').css('height', '9vh');
+            $('.profile-left, .profile-right').css('margin-top', '0.5vh');
+            $('.profile-left').css('margin-right', '0.5vh');
+            $('.profile-right').css('margin-left', '0.5vh');
+
+            $('#div-control').css('margin-top', '-65vh');
+            $('#div-control').css('width', '100vw');
+            $('.control-btn').css('font-size', '5rem');
+            $('.control-btn').css('border-radius', '2vw');
+            $('.control-btn').css('height', '5vh');
+
+        }
+    });
 </script>
 </html>
