@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>教育机构</title>
+    <link href="../static/css/bootstrap.css" rel="stylesheet"/>
+    <link href="../static/css/style.css" rel="stylesheet"/>
+</head>
+<body style="overflow: hidden">
+
+<div id="change-width">
+    <!--<input type="button" id="empty-btn"/>-->
+    <div id="edu-background">
+
+    </div>
+</div>
+<div id="div-webView">
+</div>
+<div id="div-pk">
+    <div id="blue-pk">
+        <input type="button" class="profile-left"/>
+    </div>
+    <div id="red-pk">
+        <input type="button" class="profile-right"/>
+    </div>
+</div>
+<div id="div-control">
+    <input type="button" class="control-btn" value="开始挑战"/>
+</div>
+<div id="div-webView-former">
+
+    <input type="text" id="msgBar" value="   继续学习第九章" readonly/>
+    <input type="button" id="dogHand"/>
+    <div id="dog"></div>
+    <div id="user-info">
+
+    </div>
+    <div class="lesson-view">
+        <div class="lesson-model-left">
+            <div id="progress">
+                <span></span>
+            </div>
+        </div>
+        <div class="lesson-model-right">
+            <div class="prg-cont rad-prg" id="indicatorContainer">
+                <canvas width="0" height="0"></canvas>
+            </div>
+        </div>
+        <div class="lesson-model-left" style="background: #008aff">
+            <button class="btn btn-success" type="button" id="start-game">答题</button>
+        </div>
+        <div class="lesson-model-right" style="background: #ae1fea">
+
+        </div>
+    </div>
+</div>
+
+<div id="div-game-view" style="overflow: hidden">
+    <div class="col-xs-12 no-padding">
+        <button type="button" class="col-md-3 no-padding" id="return-back">
+            <i class="glyphicon glyphicon-arrow-left"></i>
+        </button>
+    </div>
+    <div class="col-xs-12 user-score">
+        <div class="prg-cont rad-prg" id="gameContainer">
+            <canvas width="0" height="0"></canvas>
+        </div>
+    </div>
+    <button type="button" readonly="readonly"
+              class="col-xs-10 col-xs-offset-1 question-title">在细胞免疫中，效应T细胞发挥免疫作用的机制是?</button>
+    <div class="col-xs-2 no-padding" id="my-score">
+        <input value="0" type="text" readonly="readonly" class="score-num"/>
+        <div class="score-progress">
+            <div class="progress">
+                <div class="progress-bar progress-bar-danger" role="progressbar"
+                     aria-valuenow="0" aria-valuemin="0" aria-valuemax="1000"
+                     style="width: 0%;">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xs-8 no-padding" style="margin-top: 10px">
+
+        <button type="button"
+               class="col-xs-12 answer-option"
+               name="A">
+            <input type="button" value="A."/><span>选项一</span>
+        </button>
+        <button type="button"
+                class="col-xs-12 answer-option"
+                name="B">
+            <input type="button" value="B."/><span>选项二</span>
+        </button>
+        <button type="button"
+                class="col-xs-12 answer-option"
+                name="C">
+            <input type="button" value="C."/><span>选项三</span>
+        </button>
+        <button type="button"
+                class="col-xs-12 answer-option"
+                name="D">
+            <input type="button" value="D."/><span>选项四</span>
+        </button>
+        <button type="button" id="next-question">下一题</button>
+    </div>
+    <div class="col-xs-2 no-padding" id="other-score">
+        <input value="0" type="text" readonly="readonly" class="score-num"/>
+        <div class="score-progress">
+            <div class="progress">
+                <div class="progress-bar progress-bar-danger" role="progressbar"
+                     aria-valuenow="0" aria-valuemin="0" aria-valuemax="1000"
+                     style="width: 0%;">
+                </div>
+            </div>
+        </div>
+    </div>
+    <input value="A" type="hidden" id="answer-result"/>
+</div>
+
+</body>
+<script src="../static/js/jquery-3.1.1.min.js"></script>
+<script src="../static/js/radialIndicator.js"></script>
+<script>
+    $(document).ready(function () {
+        $('.hidden').hide().removeClass('hidden').delay(400).fadeIn(600);
+        var initData = 0;
+
+        var radialObj = radialIndicator('#indicatorContainer', {
+            radius: 60,
+            barWidth: 5,
+            barColor: {
+                0: '#FF0000',
+                33: '#FFFF00',
+                66: '#0066FF',
+                100: '#33CC33'
+            },
+            minValue: 0,
+            maxValue: 100,
+            fontWeight: 'normal',
+            roundCorner: true,
+        });
+
+//        setInterval(function () {
+//            if(initData <= 100) {
+//                initData++;
+//            }else {
+//                initData = 0;
+//            }
+//            radialObj.value(initData);
+//        }, 30);
+
+    });
+</script>
+<script>
+    $(document).ready(function () {
+        var isGameTimeOutFlag = false;
+        var isRoundTimeOutFlag = false;
+        var questionTitle = "第二题";
+        var gameCountDown, roundCountDown, circleCountDown;
+
+        var initGame = 0;
+        var gameObj = radialIndicator('#gameContainer', {
+            radius: 60,
+            barWidth: 5,
+            barColor: {
+                0: '#FF0000',
+                33: '#FFFF00',
+                66: '#0066FF',
+                100: '#33CC33'
+            },
+            minValue: 0,
+            maxValue: 5,
+            fontWeight: 'normal',
+            roundCorner: false,
+        });
+        
+        $('#div-pk').css('display', 'none');
+        $('#div-control').css('display', 'none');
+
+        $('#start-game').on('click', function () {
+            if(/Android|webOS|iPhone|iPod|BlackBerry/i.test(navigator.userAgent)) {
+                $('#div-webView').css('width', '0');
+                $('#div-webView').css('height', '0');
+            }
+            $('.question-title').empty();
+            $('.question-title').append("在细胞免疫中，效应T细胞发挥免疫作用的机制是?");
+
+            setTimeout(function () {
+                gameCountDown = setTimeout(function () {
+                    isGameTimeOutFlag = true;
+                    isRoundTimeOutFlag = true;
+                    clearInterval(roundCountDown);
+                    clearInterval(circleCountDown);
+                    $('.question-title').empty();
+                    $('.question-title').append("答题结束");
+                    questionTitle = "第二题";
+                }, 25000);
+
+                roundCountDown = setInterval(function () {
+                    $('#next-question').click();
+                }, 5000);
+
+                circleCountDown = setInterval(function () {
+                    if(initGame <= 5) {
+                        initGame++;
+                    }else {
+                        initGame = 0;
+                    }
+                    gameObj.value(initGame);
+                }, 720);
+            }, 2000);
+
+            $('#div-webView').css('background', '#4352a3');
+            $('#div-pk').css('display', 'block');
+            $('#div-control').css('display', 'block');
+            $('#div-webView-former').css('display', 'none');
+
+            if(/Android|webOS|iPhone|iPod|BlackBerry/i.test(navigator.userAgent)) { //手机端
+                $('#blue-pk').css('animation', 'showBluePkPhone 1.5s ');
+                $('#red-pk').css('animation', 'showRedPkPhone 1.5s ');
+                $('.control-btn').css('animation', 'showBtn 1s ');
+
+                setTimeout(function () {
+                    $('#blue-pk').css('transform', 'translateX(-5rem) translateY(10rem) rotateZ(30deg)');
+                    $('#red-pk').css('transform', 'translateX(5rem) translateY(0) rotateZ(30deg)');
+                    $('.control-btn').css('animation', 'hideBtn 1s ');
+                }, 980);
+
+                setTimeout(function () {
+                    $('#blue-pk').css('animation', 'hideBluePkPhone 0.5s ');
+                    $('#red-pk').css('animation', 'hideRedPkPhone 0.5s ');
+                }, 1500);
+
+                setTimeout(function () {
+                    $('#blue-pk').css('transform', 'translateX(-60vw) translateY(0) rotateZ(30deg)');
+                    $('#red-pk').css('transform', 'translateX(60vw) translateY(10rem) rotateZ(30deg)');
+                }, 1980);
+            }else { //PC端
+                $('#blue-pk').css('animation', 'showBluePk 1.5s ');
+                $('#red-pk').css('animation', 'showRedPk 1.5s ');
+                $('.control-btn').css('animation', 'showBtn 1s ');
+
+                setTimeout(function () {
+                    $('#blue-pk').css('transform', 'translateX(-5rem) translateY(10rem) rotateZ(30deg)');
+                    $('#red-pk').css('transform', 'translateX(5rem) translateY(0) rotateZ(30deg)');
+                    $('.control-btn').css('animation', 'hideBtn 1s ');
+                }, 980);
+
+                setTimeout(function () {
+                    $('#blue-pk').css('animation', 'hideBluePk 0.5s ');
+                    $('#red-pk').css('animation', 'hideRedPk 0.5s ');
+                }, 1500);
+
+                setTimeout(function () {
+                    $('#blue-pk').css('transform', 'translateX(-26rem) translateY(0) rotateZ(30deg)');
+                    $('#red-pk').css('transform', 'translateX(26rem) translateY(10rem) rotateZ(30deg)');
+                }, 1980);
+            }
+
+            setTimeout(function () {
+                $('#div-pk').css('display', 'none');
+                $('#div-control').css('display', 'none');
+                $('#div-game-view').css('display', 'block');
+            }, 2000);
+        });
+
+        $('#return-back').on('click', function () {
+
+            if(/Android|webOS|iPhone|iPod|BlackBerry/i.test(navigator.userAgent)) {
+                $('#div-webView').css('width', '340px');
+                $('#div-webView').css('height', '600px');
+            }
+            $('#div-webView-former').css('display', 'block');
+            $('#div-game-view').css('display', 'none');
+            $('#div-webView').css('background', '#7bc1d6');
+            isGameTimeOutFlag = false;
+            isRoundTimeOutFlag = false;
+            $('.answer-option').css('background', 'rgba(250, 250, 250, 0.7)');
+            $('.answer-option').css('color', '#4352a3');
+
+            clearTimeout(gameCountDown);
+            clearInterval(roundCountDown);
+            clearInterval(circleCountDown);
+
+            $('#my-score .score-num').val(0);
+            $('#my-score .progress-bar').attr('aria-valuenow', 0);
+            $('#my-score .progress-bar').css('width', 0);
+
+            $('.question-title').empty();
+            $('.question-title').append("在细胞免疫中，效应T细胞发挥免疫作用的机制是?");
+            questionTitle = "第二题";
+
+            initGame = 0;
+            gameObj.value(0);
+        });
+
+        $(document).on('mousedown', '.answer-option', function () {
+            if(isRoundTimeOutFlag === false) {
+                $(this).css('transform', 'scale(0.9, 0.9)');
+            }
+        });
+
+        $(document).on('mouseup', '.answer-option', function () {
+            $(this).css('transform', 'scale(1, 1)');
+        });
+
+        $(document).on('mouseover', '.answer-option', function () {
+            if(isRoundTimeOutFlag === false){
+                $(this).css('background', 'rgba(250, 250, 250, 1)');
+            }
+        });
+
+        $(document).on('mouseout', '.answer-option', function () {
+            if(isRoundTimeOutFlag === false) {
+                $(this).css('background', 'rgba(250, 250, 250, 0.7)');
+            }
+        });
+
+
+        $(document).on('click', '.answer-option', function () {
+            if(isRoundTimeOutFlag === false) {
+                if ($(this).attr('name') === $('#answer-result').val()) {
+                    $(this).css('background', '#a3d238');
+                    $(this).css('color', '#ffffff');
+                    changeCursor();
+                    changeScore();
+                } else {
+                    $(this).css('background', '#ea4a1f');
+                    $(this).css('color', '#ffffff');
+                    changeCursor();
+                }
+            }
+        });
+
+        $(document).on('click', '#next-question', function () {
+            isRoundTimeOutFlag = false;
+            $('.question-title').empty();
+            $('.question-title').append(questionTitle);
+            switch (questionTitle){
+                case "第一题": questionTitle = "第二题";break;
+                case "第二题": questionTitle = "第三题";break;
+                case "第三题": questionTitle = "第四题";break;
+                case "第四题": questionTitle = "第五题";break;
+                default: questionTitle = "答题结束";break;
+            }
+            changeOption();
+        });
+
+        function changeCursor() {
+            $('.answer-option').each(function () {
+                $(this).css('cursor', 'default');
+            });
+            isRoundTimeOutFlag = true;
+        }
+
+        function changeScore() {
+            var oldScore = $('#my-score .progress-bar').attr('aria-valuenow');
+            var maxScore = $('#my-score .progress-bar').attr('aria-valuemax');
+            var widthPercent = ((parseInt(oldScore) + 200) / parseInt(maxScore)) * 100 + "%";
+
+            $('#my-score .score-num').val(parseInt(oldScore) + 200);
+            $('#my-score .progress-bar').attr('aria-valuenow', parseInt(oldScore) + 200);
+            $('#my-score .progress-bar').css('width', widthPercent);
+        }
+
+        function changeOption() {
+            var nextAnswer = ["选项一", "选项二", "选项三", "选项四"];
+            $('.answer-option').each(function (i) {
+                var optionNo;
+                var selector = ".answer-option:eq(" + i + ")";
+                switch (i){
+                    case 0: optionNo = "A.";break;
+                    case 1: optionNo = "B.";break;
+                    case 2: optionNo = "C.";break;
+                    case 3: optionNo = "D.";break;
+                }
+                $(selector).css('color', '#4352a3');
+                $(selector).css('background', 'rgba(250, 250, 250, 0.7)');
+                $(selector).find("input").val();
+                $(selector).find("input").val(optionNo);
+                $(selector).find("span").empty();
+                $(selector).find("span").append(nextAnswer[i]);
+            });
+        }
+    })
+</script>
+<script>
+    $(document).ready(function () {
+        var pausedTimer;
+        var dog = document.getElementById('dog');
+
+        $('#dogHand').css('animation', 'shakeHand 2s infinite linear');
+
+        $(document).on('click', '#dog', function () {
+            if($(this).css('font-size') != "20px"){
+                showDogAndMsg();
+            }else {
+                hideDogAndMsg();
+            }
+        })
+
+        function stopShake() {
+            dog.style.webkitAnimationPlayState = "paused";
+            $('#dog').remove();
+            $('#div-webView-former').append('<div id="dog"></div>');
+        }
+
+        function reBootShake(msg) {
+            if (dog.style.webkitAnimationPlayState === "paused") {
+                dog.style.webkitAnimationPlayState = "running";
+            } else {
+                if(msg === "hide"){
+                    dog = document.getElementById('dog');
+                }
+                dog.style.webkitAnimationPlayState = "paused";
+            }
+        }
+
+        function showDogAndMsg() {
+            $('#dogHand').css('display', 'none');
+            if(/Android|webOS|iPhone|iPod|BlackBerry/i.test(navigator.userAgent)) {
+                $('#msgBar').css('font-size', '3.5rem');
+                $('#dog').css('animation', 'rollOutPhone 0.5s linear');
+                $('#msgBar').css('animation', 'showMsgPhone 0.5s linear');
+                setTimeout(function () {
+                    $('#dog').css('transform', 'translateX(25rem)');
+                    $('#dog').css('font-size', '20px');
+                    $('#msgBar').css('transform', 'translateX(0)');
+                }, 450);
+            }else {
+                $('#dog').css('animation', 'rollOut 0.5s linear');
+                $('#msgBar').css('animation', 'showMsg 0.5s linear');
+                setTimeout(function () {
+                    $('#dog').css('transform', 'translateX(10rem)');
+                    $('#dog').css('font-size', '20px');
+                    $('#msgBar').css('transform', 'translateX(0)');
+                }, 450);
+            }
+        }
+
+        function hideDogAndMsg() {
+            if(/Android|webOS|iPhone|iPod|BlackBerry/i.test(navigator.userAgent)) {
+                $('#dog').css('animation', 'rollInPhone 0.5s linear');
+                $('#msgBar').css('animation', 'hideMsgPhone 0.5s linear');
+                setTimeout(function () {
+                    $('#dog').css('transform', 'translateX(0)');
+                    $('#dog').css('font-size', '13px');
+                    $('#msgBar').css('transform', 'translateX(-29.56rem)');
+                    $('#msgBar').css('font-size', '3.5rem');
+                    $('#dogHand').css('display', 'block');
+                }, 430);
+            }else {
+                $('#dog').css('animation', 'rollIn 0.5s linear');
+                $('#msgBar').css('animation', 'hideMsg 0.5s linear');
+                setTimeout(function () {
+                    $('#dog').css('transform', 'translateX(0)');
+                    $('#dog').css('font-size', '13px');
+                    $('#msgBar').css('transform', 'translateX(-13.56rem)');
+                    $('#dogHand').css('display', 'block');
+                }, 450);
+            }
+        }
+    })
+</script>
+<script>
+    $(document).ready(function () {
+        if(/Android|webOS|iPhone|iPod|BlackBerry/i.test(navigator.userAgent)) {
+            $('#edu-background').css('background', '#7bc1d6');
+            $('#edu-background').css('width', '100%');
+            $('#edu-background').css('height', '100%');
+            $('#edu-background').css('margin', '0');
+            $('#div-webView-former').css('width', '100%');
+            $('#div-webView-former').css('height', '100%');
+            $('#div-webView-former').css('margin', '0');
+            $('#user-info').css('height', '30rem');
+            $('#dog').css('width', '10rem');
+            $('#dog').css('height', '10rem');
+            $('#dogHand').css('width', '6rem');
+            $('#dogHand').css('height', '6rem');
+            $('#dogHand').css('margin-top', '6rem');
+            $('#dogHand').css('margin-left', '-10.5rem');
+            $('#msgBar').css('width', '28.56rem');
+            $('#msgBar').css('height', '9rem');
+            $('#msgBar').css('transform', 'translateX(-29.56rem)');
+            $('.lesson-view').css('margin-top', '30rem');
+            $('.lesson-model-left,.lesson-model-right').css('height', '30rem');
+            $('#progress').css('margin-top', '14rem');
+            $('#indicatorContainer canvas:last-child').css('margin-top', '5rem');
+            $('#indicatorContainer canvas:last-child').css('width', '20rem');
+            $('#indicatorContainer canvas:last-child').css('height', '20rem');
+            $('#start-game').css('margin-top', '11rem');
+            $('#start-game').css('width', '80%');
+            $('#start-game').css('height', '8rem');
+            $('#start-game').css('font-size', '4rem');
+
+            $('#div-game-view').css('width', '100vw');
+            $('#div-game-view').css('height', '100vh');
+            $('#div-game-view').css('top', '0');
+            $('#div-game-view').css('background', 'rgb(67, 82, 163)');
+            $('#return-back').css('font-size', '4rem');
+            $('#return-back').parent().css('text-align', 'left');
+            $('.user-score').css('height', '20vh');
+            $('.user-score').css('margin-top', '5vh');
+            $('#gameContainer canvas:last-child').css('width', '30rem');
+            $('#gameContainer canvas:last-child').css('height', '30rem');
+            $('.question-title').css('height', '20vh');
+            $('.question-title').css('font-size', '6rem');
+            $('.score-num').css('font-size', '5rem');
+            $('.score-progress .progress').css('width', '40vh');
+            $('.score-progress .progress').css('margin-top', '35vh');
+            $('.answer-option').css('height', '10vh');
+            $('.answer-option').css('margin-top', '1vh');
+            $('.answer-option').css('border-radius', '3vh');
+            $('.answer-option').css('font-size', '5rem');
+            $('.answer-option input').css('font-size', '5rem');
+
+            $('#div-pk').css('width', '100vw');
+            $('#div-pk').css('height', '100vh');
+            $('#div-pk').css('border-radius', '0');
+            $('#div-pk').css('margin-top', '0');
+
+            $('#blue-pk').css('width', '100vw');
+            $('#blue-pk').css('border-radius', '10vh');
+            $('#blue-pk').css('transform', 'translateX(-100vw) rotateZ(30deg)');
+            $('#red-pk').css('width', '100vw');
+            $('#red-pk').css('border-radius', '10vh');
+            $('#red-pk').css('transform', 'translateX(100vw) rotateZ(30deg)');
+
+            $('.profile-left, .profile-right').css('width', '9vh');
+            $('.profile-left, .profile-right').css('height', '9vh');
+            $('.profile-left, .profile-right').css('margin-top', '0.5vh');
+            $('.profile-left').css('margin-right', '0.5vh');
+            $('.profile-right').css('margin-left', '0.5vh');
+
+            $('#div-control').css('margin-top', '-65vh');
+            $('#div-control').css('width', '100vw');
+            $('.control-btn').css('font-size', '5rem');
+            $('.control-btn').css('border-radius', '2vw');
+            $('.control-btn').css('height', '5vh');
+
+        }
+    });
+</script>
+</html>
